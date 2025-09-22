@@ -34,7 +34,14 @@ export function PriceDisplay() {
   const isPriceDown = prevPrice ? priceData.price < prevPrice : false;
 
   const formatPrice = (price: number) => {
-    return price.toFixed(9); // Show 9 decimal places for precision
+    // For prices around $0.30, show 4 decimal places for good precision
+    if (price >= 1) {
+      return price.toFixed(2); // $1.00+ show 2 decimals
+    } else if (price >= 0.01) {
+      return price.toFixed(4); // $0.01-$0.99 show 4 decimals
+    } else {
+      return price.toFixed(6); // < $0.01 show 6 decimals
+    }
   };
 
   const formatVolume = (volume: number) => {
@@ -111,4 +118,5 @@ export function PriceDisplay() {
     </Card>
   );
 }
+
 

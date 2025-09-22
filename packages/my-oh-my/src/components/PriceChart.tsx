@@ -31,7 +31,14 @@ export function PriceChart() {
   };
 
   const formatPrice = (price: number) => {
-    return `$${price.toFixed(6)}`;
+    // Smart price formatting based on price range
+    if (price >= 1) {
+      return `${price.toFixed(2)}`;
+    } else if (price >= 0.01) {
+      return `${price.toFixed(4)}`;
+    } else {
+      return `${price.toFixed(6)}`;
+    }
   };
 
   return (
@@ -86,3 +93,4 @@ export function PriceChart() {
     </Card>
   );
 }
+

@@ -40,8 +40,8 @@ export interface XavaChartData {
 
 // Enhanced price calculation with market dynamics
 class MarketSimulator {
-  private basePrice = 0.000123456; // More realistic precision
-  private currentPrice = 0.000123456;
+  private basePrice = 0.30; // XAVA price around 30 cents
+  private currentPrice = 0.30;
   private priceHistory: XavaChartData[] = [];
   private transactions: XavaTransaction[] = [];
   private volatility = 0.015; // 1.5% volatility
@@ -160,8 +160,8 @@ class MarketSimulator {
   }
 
   getStats(): XavaStats {
-    const circulatingSupply = 75000000000; // 75% of total supply
-    const totalSupply = 100000000000;
+    const circulatingSupply = 100000000; // 100M tokens circulating
+    const totalSupply = 1000000000; // 1B tokens total
     const marketCap = this.currentPrice * circulatingSupply;
     
     return {
@@ -219,4 +219,6 @@ export const xavaApi = {
   getAllTransactions: (): XavaTransaction[] => marketSimulator.getAllTransactions(),
   getPriceHistory: (): XavaChartData[] => marketSimulator.getPriceHistory()
 };
+
+
 
