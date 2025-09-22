@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Oh My - XAVA Token Dashboard",
+  title: "Xava Rocks - XAVA Token Dashboard",
   description: "Real-time XAVA token dashboard with live prices, charts, and transactions",
 };
 
@@ -32,4 +32,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 
