@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp, Users, Coins } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Coins, Hash, Trophy } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { xavaApi, XavaStats } from '@/lib/api';
 
@@ -36,27 +36,31 @@ export function StatsGrid() {
   const statsData = [
     {
       title: 'Market Cap',
-      value: `$${formatNumber(stats.marketCap)}`,
+      value: `${formatNumber(stats.marketCap)}`,
       icon: DollarSign,
-      color: 'text-green-400'
+      color: 'text-green-400',
+      subtitle: `Rank #${stats.rank}`
     },
     {
       title: '24h Volume',
-      value: `$${formatNumber(stats.volume24h)}`,
+      value: `${formatNumber(stats.volume24h)}`,
       icon: TrendingUp,
-      color: 'text-blue-400'
+      color: 'text-blue-400',
+      subtitle: 'Trading Volume'
     },
     {
       title: 'Holders',
       value: formatNumber(stats.holders),
       icon: Users,
-      color: 'text-purple-400'
+      color: 'text-purple-400',
+      subtitle: 'Unique Addresses'
     },
     {
-      title: 'Total Supply',
-      value: formatNumber(stats.totalSupply),
+      title: 'Circulating Supply',
+      value: formatNumber(stats.circulatingSupply),
       icon: Coins,
-      color: 'text-yellow-400'
+      color: 'text-yellow-400',
+      subtitle: `${((stats.circulatingSupply / stats.totalSupply) * 100).toFixed(1)}% of total`
     }
   ];
 
@@ -86,6 +90,9 @@ export function StatsGrid() {
               >
                 {stat.value}
               </motion.div>
+              <div className="text-xs text-gray-400 mt-1">
+                {stat.subtitle}
+              </div>
             </CardContent>
           </Card>
         </motion.div>
@@ -93,3 +100,6 @@ export function StatsGrid() {
     </div>
   );
 }
+
+
+
