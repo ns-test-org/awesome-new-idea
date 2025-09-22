@@ -14,13 +14,13 @@
 
 body {
   color: var(--foreground);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   background-attachment: fixed;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
 }
 
-/* Animated background */
+/* Solid black background */
 body::before {
   content: '';
   position: fixed;
@@ -28,15 +28,9 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: #000000;
   z-index: -1;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+
 
