@@ -10,16 +10,20 @@ export function StatsGrid() {
   const [stats, setStats] = useState<XavaStats | null>(null);
 
   useEffect(() => {
-    const fetchStats = () => {
-      const newStats = xavaApi.getStats();
-      setStats(newStats);
+    const fetchStats = async () => {
+      try {
+        const newStats = await xavaApi.getStats();
+        setStats(newStats);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
     };
 
     // Initial fetch
     fetchStats();
 
-    // Update every 10 seconds
-    const interval = setInterval(fetchStats, 10000);
+    // Update every 30 seconds to respect API rate limits
+    const interval = setInterval(fetchStats, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -100,6 +104,7 @@ export function StatsGrid() {
     </div>
   );
 }
+
 
 
 

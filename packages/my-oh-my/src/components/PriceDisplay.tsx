@@ -12,17 +12,21 @@ export function PriceDisplay() {
   const [prevPrice, setPrevPrice] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchPrice = () => {
-      const newPrice = xavaApi.getCurrentPrice();
-      setPrevPrice(priceData?.price || null);
-      setPriceData(newPrice);
+    const fetchPrice = async () => {
+      try {
+        const newPrice = await xavaApi.getCurrentPrice();
+        setPrevPrice(priceData?.price || null);
+        setPriceData(newPrice);
+      } catch (error) {
+        console.error('Failed to fetch price:', error);
+      }
     };
 
     // Initial fetch
     fetchPrice();
 
-    // Update every 2 seconds for more responsive feel
-    const interval = setInterval(fetchPrice, 2000);
+    // Update every 10 seconds to respect API rate limits
+    const interval = setInterval(fetchPrice, 10000);
 
     return () => clearInterval(interval);
   }, [priceData?.price]);
@@ -118,5 +122,6 @@ export function PriceDisplay() {
     </Card>
   );
 }
+
 
 

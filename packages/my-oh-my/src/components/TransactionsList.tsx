@@ -12,41 +12,49 @@ export function TransactionsList() {
   const isInitialized = useRef(false);
 
   useEffect(() => {
-    const initializeTransactions = () => {
-      // Get initial transactions from the API
-      const initialTransactions = xavaApi.getAllTransactions();
-      if (initialTransactions.length === 0) {
-        // If no transactions exist, generate some initial ones
-        const newTxs = xavaApi.getNewTransactions(8);
-        setTransactions(newTxs);
-      } else {
-        setTransactions(initialTransactions.slice(0, 8));
+    const initializeTransactions = async () => {
+      try {
+        // Get initial transactions from the API
+        const initialTransactions = await xavaApi.getAllTransactions();
+        if (initialTransactions.length === 0) {
+          // If no transactions exist, generate some initial ones
+          const newTxs = await xavaApi.getNewTransactions(8);
+          setTransactions(newTxs);
+        } else {
+          setTransactions(initialTransactions.slice(0, 8));
+        }
+        isInitialized.current = true;
+      } catch (error) {
+        console.error('Failed to initialize transactions:', error);
       }
-      isInitialized.current = true;
     };
 
-    const fetchNewTransactions = () => {
+    const fetchNewTransactions = async () => {
       if (!isInitialized.current) return;
       
-      // Get 1-3 new transactions
-      const newCount = Math.floor(Math.random() * 3) + 1;
-      const newTransactions = xavaApi.getNewTransactions(newCount);
+      try {
+        // Get 1-3 new transactions
+        const newCount = Math.floor(Math.random() * 3) + 1;
+        const newTransactions = await xavaApi.getNewTransactions(newCount);
       
-      if (newTransactions.length > 0) {
-        // Mark new transactions for animation
-        const newIds = new Set(newTransactions.map(tx => tx.id));
-        setNewTransactionIds(newIds);
-        
-        // Add new transactions to the top and keep only the latest 8
-        setTransactions(prev => {
-          const updated = [...newTransactions, ...prev].slice(0, 8);
-          return updated;
-        });
-        
-        // Clear the new transaction markers after animation
-        setTimeout(() => {
-          setNewTransactionIds(new Set());
-        }, 1000);
+        if (newTransactions.length > 0) {
+          // Mark new transactions for animation
+          const newIds = new Set(newTransactions.map(tx => tx.id));
+          setNewTransactionIds(newIds);
+          
+          // Add new transactions to the top and keep only the latest 8
+          setTransactions(prev => {
+            const updated = [...newTransactions, ...prev].slice(0, 8);
+            return updated;
+          });
+          
+          // Clear the new transaction markers after animation
+          setTimeout(() => {
+            setNewTransactionIds(new Set());
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Failed to fetch new transactions:', error);
       }
     };
 
@@ -210,6 +218,8 @@ export function TransactionsList() {
     </Card>
   );
 }
+
+
 
 
 

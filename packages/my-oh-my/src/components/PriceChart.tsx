@@ -9,16 +9,20 @@ export function PriceChart() {
   const [chartData, setChartData] = useState<XavaChartData[]>([]);
 
   useEffect(() => {
-    const fetchChartData = () => {
-      const data = xavaApi.getPriceHistory();
-      setChartData(data);
+    const fetchChartData = async () => {
+      try {
+        const data = await xavaApi.getPriceHistory();
+        setChartData(data);
+      } catch (error) {
+        console.error('Failed to fetch chart data:', error);
+      }
     };
 
     // Initial fetch
     fetchChartData();
 
-    // Update every 30 seconds
-    const interval = setInterval(fetchChartData, 30000);
+    // Update every 5 minutes to respect API rate limits
+    const interval = setInterval(fetchChartData, 300000);
 
     return () => clearInterval(interval);
   }, []);
@@ -93,4 +97,5 @@ export function PriceChart() {
     </Card>
   );
 }
+
 
